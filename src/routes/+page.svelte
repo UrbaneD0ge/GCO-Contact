@@ -1,12 +1,53 @@
+<div>
 <h1>Scan for my Business Card</h1>
-<p>Scan the QR code to get my contact details</p>
-<img width="200" style="margin: 30px;" src="./qrcode_kipdunlap.me.png" alt="QR Code">
+<img width="200" style="margin: 30px;" src="./blinq-qrcode.png" alt="QR Code">
 <p>Or enter your info so I can follow up with you!</p>
 <br>
 <form>
   <label for="name">Name:</label>
-  <input type="text" id="name" name="name"><br>
+  <input type="text" id="name" name="name">
   <label for="email">Email:</label>
   <input type="email" id="email" name="email">
   <button type="submit">Submit</button>
 </form>
+</div>
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 30px;
+  }
+
+  label {
+    font-size: 1.25rem;
+  }
+
+  input {
+    font-size: 1.25rem;
+    padding: 0.5rem;
+  }
+
+  button {
+    font-size: 1.25rem;
+    padding: 0.5rem;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #e0e0e0;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  img {
+    border: 8px double #e85a22;
+    border-radius: 20px;
+  }
+</style>

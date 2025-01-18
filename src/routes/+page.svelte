@@ -13,8 +13,14 @@
   <label for="name">Name:</label>
   <input type="text" id="name" name="name">
   <label for="email">Email:</label>
-  <input type="email" id="email" name="email">
+  <input type="email" id="email" name="email" validate="email">
   <button type="submit">Submit</button>
+  {#if form?.status === 200}
+    <p style="color: green;">Thanks {form.body.name.split(' ')[0]}! We'll reach out to {form.body.email} soon!</p>
+  {/if}
+  {#if form?.status === 500}
+    <p style="color: red;">{form.body}</p>
+  {/if}
 </form>
 </div>
 
@@ -39,7 +45,7 @@
   button {
     font-size: 1.25rem;
     padding: 0.5rem;
-    background-color: #f0f0f0;
+    background-color: #8ec63f9a;
     border: none;
     cursor: pointer;
   }

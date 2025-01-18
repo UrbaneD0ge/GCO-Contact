@@ -1,9 +1,15 @@
+<script>
+  import {enhance} from "$app/forms";
+  export let data, form;
+</script>
+
 <div>
 <h1>Scan for my Business Card</h1>
 <img width="200" style="margin: 30px;" src="./blinq-qrcode.png" alt="QR Code">
 <p>Or enter your info so I can follow up with you!</p>
 <br>
-<form>
+
+<form method="post" use:enhance>
   <label for="name">Name:</label>
   <input type="text" id="name" name="name">
   <label for="email">Email:</label>
@@ -11,6 +17,8 @@
   <button type="submit">Submit</button>
 </form>
 </div>
+
+
 <style>
   form {
     display: flex;
@@ -37,7 +45,7 @@
   }
 
   button:hover {
-    background-color: #e0e0e0;
+    background-color: #8dc63f;
   }
 
   div {
@@ -47,7 +55,7 @@
   }
 
   img {
-    border: 8px double #e85a22;
+    border: 8px double #fbaf3f;
     border-radius: 20px;
   }
 </style>

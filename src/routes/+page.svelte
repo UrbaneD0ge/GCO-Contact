@@ -1,16 +1,18 @@
 <script>
   import {onMount} from 'svelte';
   import {enhance} from "$app/forms";
-  export let form, latitude, longitude;
+  export let form;
+  let currentPosition = { latitude: 0, longitude: 0 };
+  let submitting = false;
 
   function getLocation() {
       navigator.geolocation.getCurrentPosition((position) => {
         console.log('Latitude: ' + position.coords.latitude);
         console.log('Longitude: ' + position.coords.longitude);
-        return {
+          currentPosition = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
-        }
+          };
       });
   }
 
@@ -24,31 +26,53 @@
 <img width="200" src="./blinq-qrcode.png" alt="QR Code">
 <p>Or enter your info so I can follow up with you!</p>
 
-<form method="post" use:enhance>
+<form method="post"
+use:enhance={
+() => {submitting = true;
+return async ({update}) => {await update();
+submitting = false;
+}
+}}
+on:submit={
+(e) => {e.preventDefault()
+}}>
   <div>
     <label for="name">Name:</label><br>
-    <input type="text" id="name" name="name">
+    <input type="text" id="name" name="name" disabled={submitting} validate="required">
   </div>
   <div>
     <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" validate="email">
+    <input type="email" id="email" name="email" validate="email" disabled={submitting}>
   </div>
 <div>
-  <input placeholder="latitude" type="text" name="latitude" id="latitude" bind:value={latitude}><br>
-  <input placeholder="longitude" type="text" name="longitude" id="longitude" bind:value={longitude}>
+  <input placeholder="latitude" type="text" name="latitude" id="latitude" bind:value={currentPosition.latitude}><br>
+  <input placeholder="longitude" type="text" name="longitude" id="longitude" bind:value={currentPosition.longitude}>
 </div>
-  <button type="submit">Submit</button>
+
+{#if form?.code === '23505'}
+  <p class="message">That email is already signed up!</p>
+{/if}
+
+  <!-- SUBMIT BUTTON -->
+  <button type="submit">{submitting ? "..." : "Submit" }</button>
 </form>
+
+<!-- FORM STATUS ERRORS -->
 {#if form?.status === 200}
   <p class="success">Thanks {form.body.name.split(' ')[0]}! We'll reach out to {form.body.email} soon!</p>
 {/if}
+
 {#if form?.status === 500}
-  <p class="error">{form.body}</p>
+  <pre class="error">{form.body}</pre>
 {/if}
 </div>
 
 
 <style>
+  .message {
+    margin: 0;
+    color: var(--GCO-orange);
+  }
   form {
     display: flex;
     flex-direction: column;

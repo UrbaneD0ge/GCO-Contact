@@ -3,6 +3,7 @@ import { UUID } from "$env/static/private";
 
 export const actions = {
     default: async ({ request }) => {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         const data = await request.formData();
         console.log(data.get("name"));
         console.log(data.get("email"));
@@ -20,6 +21,7 @@ export const actions = {
             console.log(error);
             return {
                 status: 500,
+                code: error.code,
                 message: error.message,
                 body: error.details
             };

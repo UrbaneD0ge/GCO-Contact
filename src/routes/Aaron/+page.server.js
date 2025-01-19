@@ -4,7 +4,7 @@ import { UUID } from "$env/static/private";
 export const actions = {
     default: async ({ request }) => {
         // simulate slow connection
-        await new Promise((resolve) => setTimeout(resolve, 4000));
+        // await new Promise((resolve) => setTimeout(resolve, 4000));
         const data = await request.formData();
         console.log(data.get("name"));
         console.log(data.get("email"));
@@ -15,7 +15,8 @@ export const actions = {
                 email: data.get("email"),
                 latitude: data.get("latitude"),
                 longitude: data.get("longitude"),
-                user_id: UUID
+                user_id: UUID,
+                rep_id: 1
             }
         ]);
         if (error) {
@@ -29,11 +30,10 @@ export const actions = {
         } else {
             return {
                 status: 200,
-                body: {
-                    name: data.get("name"),
-                    email: data.get("email"),
-                    message: "Contact added successfully!"
-                }
+                body: "Contact added successfully!",
+                name: data.get("name"),
+                email: data.get("email"),
+                message: "Contact added successfully!"
             };
         }
     }

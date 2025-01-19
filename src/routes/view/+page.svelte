@@ -1,5 +1,7 @@
 <script>
     export let data;
+    // Array of GCO reps - used to display the name of the rep based on the rep_id index
+    let reps = ["Kip", "Aaron", "Alyssa", "Brenden", "Courtney", "Shayla", "Tiffany"];
 </script>
 
 <main>
@@ -8,6 +10,8 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Location</th>
+                <th>GCO Rep</th>
                 <th>Created At</th>
             </tr>
         </thead>
@@ -17,7 +21,9 @@
         <tr>
             <td>{row.name}</td>
             <td><a href="mailto:{row.email}">{row.email}</a></td>
-            <td>{row.created_at}</td>
+            <td><a href="https://www.google.com/maps/@{row.latitude},{row.longitude}" target="_blank" noopener>{(row.latitude && row.longitude !== '0') ? "📌" : "✖️"}</a></td>
+            <td>{reps[row.rep_id]}</td>
+            <td>{new Date(row.created_at).toLocaleString()}</td>
         </tr>
     {/each}
         </tbody>

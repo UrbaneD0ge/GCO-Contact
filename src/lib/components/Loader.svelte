@@ -1,6 +1,6 @@
 <script>
-    import { fade } from 'svelte/transition';
-  </script>
+  import { fade } from 'svelte/transition';
+</script>
 
   <!-- svelte-ignore element_invalid_self_closing_tag -->
   <div class="loader" transition:fade />

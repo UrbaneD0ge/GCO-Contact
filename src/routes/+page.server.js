@@ -11,6 +11,8 @@ export const actions = {
             {
                 name: data.get("name"),
                 email: data.get("email"),
+                latitude: data.get("latitude"),
+                longitude: data.get("longitude"),
                 user_id: UUID
             }
         ]);

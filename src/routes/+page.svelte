@@ -1,6 +1,7 @@
 <script>
   import {onMount} from 'svelte';
   import {enhance} from "$app/forms";
+  import Loader from '$lib/components/Loader.svelte';
   export let form;
   let currentPosition = { latitude: 0, longitude: 0 };
   let submitting = false;
@@ -29,13 +30,13 @@
 <form method="post"
 use:enhance={
 () => {submitting = true;
-  submitting = false;
   return async ({update}) => {
     if (form?.status !== 200) {
       await update({ reset: false });
     } else {
-    await update({ reset: true });
+      await update({ reset: true });
     }
+    submitting = false;
   };
 }
 }
@@ -44,15 +45,15 @@ on:submit={
 }}>
   <div>
     <label for="name">Name:</label><br>
-    <input type="text" id="name" name="name" disabled={submitting} validate="required">
+    <input type="text" id="name" name="name" disabled={submitting} validate="required" required>
   </div>
   <div>
     <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" validate="email" disabled={submitting}>
+    <input type="email" id="email" name="email" validate="email" disabled={submitting} required>
   </div>
-<div>
-  <input placeholder="latitude" type="text" name="latitude" id="latitude" bind:value={currentPosition.latitude}><br>
-  <input placeholder="longitude" type="text" name="longitude" id="longitude" bind:value={currentPosition.longitude}>
+<div style="display:none;">
+  <input placeholder="latitude" type="hidden" name="latitude" id="latitude" bind:value={currentPosition.latitude}><br>
+  <input placeholder="longitude" type="hidden" name="longitude" id="longitude" bind:value={currentPosition.longitude}>
 </div>
 
 {#if form?.code === '23505'}
@@ -60,7 +61,13 @@ on:submit={
 {/if}
 
   <!-- SUBMIT BUTTON -->
-  <button type="submit">{submitting ? "..." : "Submit" }</button>
+  <button type="submit" disabled={submitting}>
+    {#if submitting}
+      <Loader/>
+    {:else}
+      Submit
+    {/if}
+  </button>
 </form>
 
 <!-- FORM STATUS ERRORS -->
@@ -105,12 +112,13 @@ on:submit={
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
   }
 
   button:hover {
     color: black;
     background-color: var(--GCO-green);
-
   }
 
   .center {

@@ -3,6 +3,7 @@ import { UUID } from "$env/static/private";
 
 export const actions = {
     default: async ({ request }) => {
+        // simulate slow connection
         await new Promise((resolve) => setTimeout(resolve, 2000));
         const data = await request.formData();
         console.log(data.get("name"));

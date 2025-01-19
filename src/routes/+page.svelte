@@ -29,10 +29,16 @@
 <form method="post"
 use:enhance={
 () => {submitting = true;
-return async ({update}) => {await update();
-submitting = false;
+  submitting = false;
+  return async ({update}) => {
+    if (form?.status !== 200) {
+      await update({ reset: false });
+    } else {
+    await update({ reset: true });
+    }
+  };
 }
-}}
+}
 on:submit={
 (e) => {e.preventDefault()
 }}>
